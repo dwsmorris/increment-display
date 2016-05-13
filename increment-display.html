@@ -26,6 +26,7 @@
 				var self = this;
 
 				incrementPanel.deltaSource.subscribe(function (delta) {
+					console.log("in deltaSource.subscribe");
 					self.value = delta * self.step;
 				});
 			}
