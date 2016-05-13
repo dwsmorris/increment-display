@@ -5,29 +5,25 @@
 
 <dom-module id="increment-display">
 	<template>
-		
+		<div>[[value]]</div>
+		<increment-panel></increment-panel>
 	</template>
 	<script>
 		Polymer({
 			is: 'increment-display',
 			properties: {
-				decrementLabel: {
-					type: String,
-					value: "-"
-				},
-				incrementLabel: {
-					type: String,
-					value: "+"
+				value: {
+					type: Number,
+					value: 0
 				}
 			},
 			attached: function () {
-				var decrementButton = document.querySelector("paper-button#increment");
-				var incrementButton = document.querySelector("paper-button#decrement");
+				var incrementPanel = document.querySelector("increment-panel");
+				var self = this;
 
-				var decrementSource = Rx.Observable.fromEvent(decrementButton, "click").map(-1);
-				var incrementSource = Rx.Observable.fromEvent(incrementButton, "click").map(1);
-
-				this.deltaSource = decrementSource.merge(incrementSource).scan(function (acc, x) { return acc + x; });
+				incrementPanel.deltaSource.subscribe(function (delta) {
+					self.value = delta;
+				});
 			}
 		});
 	</script>
