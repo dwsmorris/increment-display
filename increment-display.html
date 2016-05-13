@@ -6,7 +6,7 @@
 <dom-module id="increment-display">
 	<template>
 		<div>[[value]]</div>
-		<increment-panel></increment-panel>
+		<increment-panel increment-label="add" decrement-label="subtract"></increment-panel>
 	</template>
 	<script>
 		Polymer({
@@ -15,6 +15,10 @@
 				value: {
 					type: Number,
 					value: 0
+				},
+				step: {
+					type: Number,
+					value: 1
 				}
 			},
 			attached: function () {
@@ -22,7 +26,7 @@
 				var self = this;
 
 				incrementPanel.deltaSource.subscribe(function (delta) {
-					self.value = delta;
+					self.value = delta * self.step;
 				});
 			}
 		});
