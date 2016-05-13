@@ -22,12 +22,14 @@
 				}
 			},
 			attached: function () {
-				var incrementPanel = document.querySelector("increment-panel");
-				var self = this;
+				this.async(function () { // ensure children are attached first
+					var incrementPanel = document.querySelector("increment-panel");
+					var self = this;
 
-				incrementPanel.deltaSource.subscribe(function (delta) {
-					console.log("in deltaSource.subscribe");
-					self.value = delta * self.step;
+					incrementPanel.deltaSource.subscribe(function (delta) {
+						console.log("in deltaSource.subscribe");
+						self.value = delta * self.step;
+					});
 				});
 			}
 		});
