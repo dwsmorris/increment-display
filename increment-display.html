@@ -25,17 +25,16 @@
 					value: 0
 				}
 			},
+			changeValue: function (acc, delta) {
+				return acc + (delta * this.step);
+			},
+			setValue: function(value) {
+				this.value = value;
+			},
 			ready: function () {
-				var incrementPanel = this.$.incrementPanel;
-				var self = this;
-
 				this.value = this.startingValue;
 
-				incrementPanel.deltaSource.scan(function(acc, delta) {
-					return acc + (delta * self.step);
-				}, self.startingValue).subscribe(function (value) {
-					self.value = value;
-				});
+				this.$.incrementPanel.deltaSource.scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
 			}
 		});
 	</script>
