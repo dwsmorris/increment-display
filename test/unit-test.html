@@ -16,11 +16,67 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 
 	<!-- Step 1: import the element to test -->
+	<link rel="import" href="../bower_components/increment-panel/increment-panelstub.html" />
 	<link rel="import" href="../increment-display.html">
 </head>
 <body>
-	<increment-display></increment-display>
+	<test-fixture id="increment-display-fixture">
+		<template>
+			<increment-display></increment-display>
+		</template>
+	</test-fixture>
 	<script>
+		suite("<increment-display>", function () {
+			var incrementDisplay;
+
+			setup(function () {
+				incrementDisplay = fixture("increment-display-fixture");
+			});
+
+			suite("setValue", function () {
+				test("sets the value property", function () {
+					var value = 5;
+					incrementDisplay.setValue(value);
+
+					expect(incrementDisplay.value).to.equal(value);
+				});
+			});
+
+			suite("testMethod with stubbed method", function () {
+				setup(function () {
+					stub("increment-display", {
+						setValue: function (value) {
+							this.value = value * 2;
+						}
+					});
+				});
+
+				test("calls setValue", function () {
+					incrementDisplay.setValue = sinon.spy();
+
+					incrementDisplay.testMethod(7);
+
+					expect(incrementDisplay.setValue.called).to.equal(true);
+				});
+
+				test("calls stubbed setValue", function () {
+					incrementDisplay.testMethod(3);
+
+					expect(incrementDisplay.value).to.equal(6);
+
+				});
+			});
+			
+			suite("testMethod with stubbed element", function () {
+				setup(function () {
+					replace("increment-panel").with("increment-panelstub");
+				});
+
+				test("increment-panel has been stubbed out", function () {
+					expect(incrementDisplay.$$("increment-panel")).to.equal(true);
+				});
+			});
+		});
 	</script>
 </body>
 </html>

@@ -14,7 +14,8 @@
   "dependencies": {
     "polymer": "Polymer/polymer#^1.2.0",
     "rxjs-import": "dwsmorris/rxjs-import",
-    "increment-panel": "dwsmorris/increment-panel"
+    "increment-panel": "dwsmorris/increment-panel",
+    "ramda-import": "dwsmorris/ramda-import"
   },
   "devDependencies": {
     "web-component-tester": "^4.0.0"

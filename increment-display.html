@@ -1,5 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../rxjs-import/rxjs-import.html" />
+<link rel="import" href="../ramda-import/ramda-import.html" />
 
 <link rel="import" href="../increment-panel/increment-panel.html" />
 
@@ -35,6 +36,9 @@
 				this.value = this.startingValue;
 
 				this.$.incrementPanel.deltaSource.scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
+			},
+			testMethod: function (value) {
+				this.setValue(value);
 			}
 		});
 	</script>
