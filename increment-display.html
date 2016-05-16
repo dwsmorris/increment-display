@@ -8,7 +8,7 @@
 <dom-module id="increment-display">
 	<template>
 		<div>[[value]]</div>
-		<increment-panel id='incrementPanel' decrement-label="subtract" increment-label="add"></increment-panel>
+		<increment-panel id='increment-panel' decrement-label="subtract" increment-label="add"></increment-panel>
 	</template>
 	<script>
 		Polymer({
@@ -36,7 +36,7 @@
 			ready: function () {
 				this.value = this.startingValue;
 
-				this.$.incrementPanel.deltaSource.scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
+				this.$$("#increment-panel").deltaSource.scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
 			},
 			testMethod: function (value) {
 				this.setValue(value);
