@@ -16,7 +16,6 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 	<script src="../bower_components/web-component-tester/browser.js"></script>
 
 	<!-- Step 1: import the element to test -->
-	<link rel="import" href="../bower_components/increment-panel/increment-panelstub.html" />
 	<link rel="import" href="../increment-display.html">
 </head>
 <body>
@@ -29,11 +28,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 		suite("<increment-display>", function () {
 			var incrementDisplay;
 
-			setup(function () {
-				incrementDisplay = fixture("increment-display-fixture");
-			});
-
 			suite("setValue", function () {
+				setup(function () {
+					incrementDisplay = fixture("increment-display-fixture");
+				});
+
 				test("sets the value property", function () {
 					var value = 5;
 					incrementDisplay.setValue(value);
@@ -43,6 +42,10 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			});
 
 			suite("testMethod with stubbed method", function () {
+				setup(function () {
+					incrementDisplay = fixture("increment-display-fixture");
+				});
+
 				setup(function () {
 					stub("increment-display", {
 						setValue: function (value) {
@@ -69,11 +72,24 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
 			
 			suite("testMethod with stubbed element", function () {
 				setup(function () {
-					replace("increment-panel").with("increment-panelstub");
+					replace("increment-panel").with("increment-panel-stub");
+					incrementDisplay = fixture("increment-display-fixture");
 				});
 
 				test("increment-panel has been stubbed out", function () {
-					expect(incrementDisplay.$$("increment-panel")).to.equal(true);
+					expect(incrementDisplay.$$("#incrementPanel").elementStubbed).to.equal(true);
+				});
+			});
+
+			suite("changeValue with stubbed property", function () {
+				setup(function () {
+					incrementDisplay = fixture("increment-display-fixture");
+				});
+
+				test("calculates value from step", function () {
+					incrementDisplay.step = 10;
+
+					expect(incrementDisplay.changeValue(100, -1)).to.equal(90);
 				});
 			});
 		});
