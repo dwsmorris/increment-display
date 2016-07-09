@@ -1,6 +1,7 @@
 <link rel="import" href="../polymer/polymer.html">
 <link rel="import" href="../rxjs-import/rxjs-import.html" />
 <link rel="import" href="../ramda-import/ramda-import.html" />
+<link rel="import" href="../patternscript/patternscript.html" />
 
 <link rel="import" href="../increment-panel/increment-panel.html" />
 <link rel="import" href="../increment-panel/increment-panel-stub.html" />
@@ -11,7 +12,7 @@
 		<increment-panel id='increment-panel' decrement-label="subtract" increment-label="add"></increment-panel>
 	</template>
 	<script>
-		Polymer({
+		IncrementDisplay = Polymer({
 			is: 'increment-display',
 			properties: {
 				value: {
@@ -27,20 +28,21 @@
 					value: 0
 				}
 			},
-			changeValue: function (acc, delta) {
-				return acc + (delta * this.step);
-			},
 			setValue: function(value) {
 				this.value = value;
 			},
 			ready: function () {
 				this.value = this.startingValue;
 
-				this.$$("#increment-panel").deltaSource().scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
-			},
-			testMethod: function (value) {
-				this.setValue(value);
+				//this.incrementPanel().deltaSource().scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
+				this.deltaSource().scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
 			}
+		});
+		PatternScript.extend(IncrementDisplay.prototype, {
+			"(changeValue acc delta)"	: "(+ acc (* delta this.step))",
+			"(incrementPanel)"			: "(this.$$ '#increment-panel')",
+			"(deltaSource)"				: "((. (incrementPanel) 'deltaSource'))"/*,
+			"(total)"					: "((. (deltaSource) 'scan') (this.changeValue.bind this) this.startingValue)"*/
 		});
 	</script>
 </dom-module>
