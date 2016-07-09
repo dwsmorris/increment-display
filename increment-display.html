@@ -36,7 +36,7 @@
 			ready: function () {
 				this.value = this.startingValue;
 
-				this.$$("#increment-panel").deltaSource.scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
+				this.$$("#increment-panel").deltaSource().scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
 			},
 			testMethod: function (value) {
 				this.setValue(value);
