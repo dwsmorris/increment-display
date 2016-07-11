@@ -34,15 +34,15 @@
 			ready: function () {
 				this.value = this.startingValue;
 
-				//this.incrementPanel().deltaSource().scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
-				this.deltaSource().scan(this.changeValue.bind(this), this.startingValue).subscribe(this.setValue.bind(this));
+				this.initialize();
 			}
 		});
 		PatternScript.extend(IncrementDisplay.prototype, {
 			"(changeValue acc delta)"	: "(+ acc (* delta this.step))",
 			"(incrementPanel)"			: "(this.$$ '#increment-panel')",
-			"(deltaSource)"				: "((. (incrementPanel) 'deltaSource'))"/*,
-			"(total)"					: "((. (deltaSource) 'scan') (this.changeValue.bind this) this.startingValue)"*/
+			"(deltaSource)"				: "((. (incrementPanel) 'deltaSource'))",
+			"(total)"					: "((. (deltaSource) 'scan') (_.bind this.changeValue this) this.startingValue)",
+			"(initialize)"				: "((. (total) 'subscribe') (_.bind this.setValue this))"
 		});
 	</script>
 </dom-module>
